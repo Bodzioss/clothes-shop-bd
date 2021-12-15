@@ -348,3 +348,17 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+*.sln
+*.js
+*.map
+*.css
+Clothes_Shop/Clothes_Shop/wwwroot/lib/jquery/LICENSE.txt
+Clothes_Shop/Clothes_Shop/wwwroot/lib/bootstrap/LICENSE
+Clothes_Shop/Clothes_Shop/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt
+Clothes_Shop/Clothes_Shop/wwwroot/lib/jquery-validation/LICENSE.md
+Clothes_Shop/Clothes_Shop/Views/Shared/_ValidationScriptsPartial.cshtml
+Clothes_Shop/Clothes_Shop/wwwroot/favicon.ico
+Clothes_Shop/Clothes_Shop/Properties/launchSettings.json
+Clothes_Shop/Clothes_Shop/Views/Shared/Error.cshtml
+Clothes_Shop/Clothes_Shop/Views/Home/Index.cshtml
+Clothes_Shop/Clothes_Shop/Views/Home/Privacy.cshtml
