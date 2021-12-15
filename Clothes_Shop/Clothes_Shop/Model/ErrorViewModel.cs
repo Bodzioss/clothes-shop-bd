@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Clothes_Shop.Models
 {
-    public class ErrorView
+    public class ErrorViewModel
     {
         public string RequestId { get; set; }
 

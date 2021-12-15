@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace Clothes_Shop.Models
 {
-    public class CityTab
+    public partial class CityTab
     {
-        [Key]
-        public int CityID { get; set; }
-        public String CityName { get; set; }
+        public CityTab()
+        {
+            ClientAddress = new HashSet<ClientAddress>();
+        }
+
+        public int CityId { get; set; }
+        public string CityName { get; set; }
+
+        public virtual ICollection<ClientAddress> ClientAddress { get; set; }
     }
 }

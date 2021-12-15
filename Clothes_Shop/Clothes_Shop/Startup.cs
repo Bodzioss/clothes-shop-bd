@@ -1,4 +1,4 @@
-using Clothes_Shop.Data;
+
 using Clothes_Shop.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,8 +27,9 @@ namespace Clothes_Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<ClothesShopContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("ClothesShopContext")));
+            services.AddDbContext<BD2SklepContext>(opt =>
+                 opt.UseSqlServer(Configuration.GetConnectionString("ClothesShopContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

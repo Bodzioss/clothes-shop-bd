@@ -1,28 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace Clothes_Shop.Models
 {
-    public class Product
+    public partial class Product
     {
-        [Key]
-        public int ProductID { get; set; }
-        public String ProductName { get; set; }
-        public String Season { get; set; }
-        public float Price { get; set; }
-        public int GenderID { get; set; }
-        public int ColorID { get; set; }
-        public int SizeID { get; set; }
-        public int MaterialID { get; set; }
-        public String Pattern { get; set; }
-        public int BrandID { get; set; }
-        public int CategoryID { get; set; }
-        public int Amount { get; set; }
-        public String Description { get; set; }
-        public String Picture { get; set; }
+        public Product()
+        {
+            BasketDetails = new HashSet<BasketDetails>();
+            Opinion = new HashSet<Opinion>();
+            OrderDetails = new HashSet<OrderDetails>();
+        }
 
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string Season { get; set; }
+        public decimal Price { get; set; }
+        public int GenderId { get; set; }
+        public int ColorId { get; set; }
+        public int SizeId { get; set; }
+        public int MaterialId { get; set; }
+        public string Pattern { get; set; }
+        public int BrandId { get; set; }
+        public int CategoryId { get; set; }
+        public int Amount { get; set; }
+        public string Description { get; set; }
+        public string Picture { get; set; }
+
+        public virtual BrandTab Brand { get; set; }
+        public virtual CategoryTab Category { get; set; }
+        public virtual ColorTab Color { get; set; }
+        public virtual GenderTab Gender { get; set; }
+        public virtual MaterialTab Material { get; set; }
+        public virtual SizeTab Size { get; set; }
+        public virtual ICollection<BasketDetails> BasketDetails { get; set; }
+        public virtual ICollection<Opinion> Opinion { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }
