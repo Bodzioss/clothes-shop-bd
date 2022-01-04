@@ -90,7 +90,6 @@ namespace Clothes_Shop.Controllers
             if (id != categoryTab.CategoryId)
             {
                 return NotFound();
-  
             }
 
             if (ModelState.IsValid)

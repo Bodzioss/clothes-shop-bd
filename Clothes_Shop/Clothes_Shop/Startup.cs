@@ -30,9 +30,6 @@ namespace Clothes_Shop
             services.AddDbContext<BD2SklepContext>(opt =>
                  opt.UseSqlServer(Configuration.GetConnectionString("ClothesShopContext")));
 
-#if DEBUG
-            services.AddRazorPages().AddRazorRuntimeCompilation();
-#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
