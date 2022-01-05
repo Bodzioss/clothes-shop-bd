@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Clothes_Shop</title>
     <link rel="stylesheet" href="~/css/site.css" type="text/css"/>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -29,8 +29,8 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Woman
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" asp-controller="Products" asp-action="Index">Product</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                        <a class="dropdown-item" asp-controller="Products" asp-action="Index">Produkty</a>
                         <a class="dropdown-item" asp-controller="Users" asp-action="Index">User</a>
                         <a class="dropdown-item" asp-controller="Opinions" asp-action="Index">Opinion</a>
                         <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
@@ -42,7 +42,7 @@
                         Man
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" asp-controller="Products" asp-action="Index">Product</a>
+                        <a class="dropdown-item" asp-controller="Products" asp-action="Index">Produkty</a>
                         <a class="dropdown-item" asp-controller="Users" asp-action="Index">User</a>
                         <a class="dropdown-item" asp-controller="Opinions" asp-action="Index">Opinion</a>
                         <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
@@ -54,7 +54,7 @@
                         Kids
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" asp-controller="Products" asp-action="Index">Product</a>
+                        <a class="dropdown-item" asp-controller="Products" asp-action="Index">Produkty</a>
                         <a class="dropdown-item" asp-controller="Users" asp-action="Index">User</a>
                         <a class="dropdown-item" asp-controller="Opinions" asp-action="Index">Opinion</a>
                         <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
@@ -63,11 +63,13 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-md-auto">
-                <form class="form-inline my-2 my-lg-0">
+                @*<form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <button class="btn">Log in</button>
+                </form>*@
+                @*<a class="nav-link" href="/identity/account/login">Zaloguj się</a>
+                <a class="nav-link" href="/identity/account/register">Zarejestruj się</a>*@
+                <partial name="_LoginPartial"/>
             </ul>
         </div>
     </nav>

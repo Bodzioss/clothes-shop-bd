@@ -1,0 +1,82 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/css/site.css" rel="stylesheet" />
+
+
+<div class="container m-auto login-container">
+    <div class="row">
+        <div class="col-sm-6 login-form-1">
+            <h3>Zarejestruj się</h3>
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <div class="form-group">
+                            <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6">
+                        <div class="form-group">
+                            <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.CityID" class="form-control" placeholder="City" />
+                    <span asp-validation-for="Input.CityID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.StreetID" class="form-control" placeholder="Street" />
+                    <span asp-validation-for="Input.StreetID" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <div class="form-group">
+                            <input asp-for="Input.StreetNumber" class="form-control" placeholder="StreetNumber" />
+                            <span asp-validation-for="Input.StreetNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6">
+                        <div class="form-group">
+                            <input asp-for="Input.HomeNumber" class="form-control" placeholder="HomeNumber" />
+                            <span asp-validation-for="Input.HomeNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Phone Number" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Password" class="form-control" placeholder="Password" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Register" />
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">I already have an account</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
