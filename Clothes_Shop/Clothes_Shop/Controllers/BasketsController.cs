@@ -47,7 +47,7 @@ namespace Clothes_Shop.Controllers
         // GET: Baskets/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email");
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace Clothes_Shop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", basket.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", basket.UserId);
             return View(basket);
         }
 
@@ -81,7 +81,7 @@ namespace Clothes_Shop.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", basket.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", basket.UserId);
             return View(basket);
         }
 
@@ -117,7 +117,7 @@ namespace Clothes_Shop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", basket.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", basket.UserId);
             return View(basket);
         }
 

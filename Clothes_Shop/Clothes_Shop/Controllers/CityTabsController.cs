@@ -18,12 +18,9 @@ namespace Clothes_Shop.Controllers
             _context = context;
         }
 
-        public IEnumerable<CityTab> displayCityTabs;
-
         // GET: CityTabs
         public async Task<IActionResult> Index()
         {
-            displayCityTabs = await _context.CityTab.ToListAsync();
             return View(await _context.CityTab.ToListAsync());
         }
 

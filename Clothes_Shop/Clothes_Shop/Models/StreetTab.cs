@@ -11,12 +11,12 @@ namespace Clothes_Shop.Models
     {
         public StreetTab()
         {
-            ClientAddress = new HashSet<ClientAddress>();
+            AspNetUsers = new HashSet<AspNetUsers>();
         }
 
         public int StreetId { get; set; }
         public string StreetName { get; set; }
 
-        public virtual ICollection<ClientAddress> ClientAddress { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }

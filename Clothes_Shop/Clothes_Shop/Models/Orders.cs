@@ -15,7 +15,7 @@ namespace Clothes_Shop.Models
         }
 
         public int OrderId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string PaymentType { get; set; }
         public string PaymentStatus { get; set; }
         public DateTime? PaymentDate { get; set; }
@@ -26,7 +26,7 @@ namespace Clothes_Shop.Models
         public string Description { get; set; }
 
         public virtual Shipper Shipper { get; set; }
-        public virtual User User { get; set; }
+        public virtual AspNetUsers User { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

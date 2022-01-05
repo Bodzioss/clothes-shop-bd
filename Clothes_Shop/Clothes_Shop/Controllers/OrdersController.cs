@@ -49,7 +49,7 @@ namespace Clothes_Shop.Controllers
         public IActionResult Create()
         {
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName");
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email");
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace Clothes_Shop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName", orders.ShipperId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", orders.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", orders.UserId);
             return View(orders);
         }
 
@@ -85,7 +85,7 @@ namespace Clothes_Shop.Controllers
                 return NotFound();
             }
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName", orders.ShipperId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", orders.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", orders.UserId);
             return View(orders);
         }
 
@@ -122,7 +122,7 @@ namespace Clothes_Shop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName", orders.ShipperId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", orders.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", orders.UserId);
             return View(orders);
         }
 

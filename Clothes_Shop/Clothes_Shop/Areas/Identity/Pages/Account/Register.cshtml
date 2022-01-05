@@ -30,11 +30,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input asp-for="Input.CityID" class="form-control" placeholder="City" />
+                    <select asp-for="Input.CityID" class="form-control" asp-items="ViewBag.CityId" placeholder="City"/>
                     <span asp-validation-for="Input.CityID" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="Input.StreetID" class="form-control" placeholder="Street" />
+                    <input asp-for="Input.StreetID" class="form-control" asp-items="ViewBag.StreetId" placeholder="City"/>
                     <span asp-validation-for="Input.StreetID" class="text-danger"></span>
                 </div>
                 <div class="row">

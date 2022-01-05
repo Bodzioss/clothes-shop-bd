@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -31,7 +32,7 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Basket.BasketId)
+                @Html.DisplayFor(modelItem => item.Basket.UserId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Product.Pattern)

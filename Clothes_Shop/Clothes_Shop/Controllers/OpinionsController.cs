@@ -49,7 +49,7 @@ namespace Clothes_Shop.Controllers
         public IActionResult Create()
         {
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern");
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email");
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace Clothes_Shop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", opinion.ProductId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", opinion.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", opinion.UserId);
             return View(opinion);
         }
 
@@ -85,7 +85,7 @@ namespace Clothes_Shop.Controllers
                 return NotFound();
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", opinion.ProductId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", opinion.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", opinion.UserId);
             return View(opinion);
         }
 
@@ -122,7 +122,7 @@ namespace Clothes_Shop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", opinion.ProductId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", opinion.UserId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", opinion.UserId);
             return View(opinion);
         }
 

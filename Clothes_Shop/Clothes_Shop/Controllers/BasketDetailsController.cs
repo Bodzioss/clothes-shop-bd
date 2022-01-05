@@ -48,7 +48,7 @@ namespace Clothes_Shop.Controllers
         // GET: BasketDetails/Create
         public IActionResult Create()
         {
-            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "BasketId");
+            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "UserId");
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern");
             return View();
         }
@@ -66,7 +66,7 @@ namespace Clothes_Shop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "BasketId", basketDetails.BasketId);
+            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "UserId", basketDetails.BasketId);
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", basketDetails.ProductId);
             return View(basketDetails);
         }
@@ -84,7 +84,7 @@ namespace Clothes_Shop.Controllers
             {
                 return NotFound();
             }
-            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "BasketId", basketDetails.BasketId);
+            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "UserId", basketDetails.BasketId);
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", basketDetails.ProductId);
             return View(basketDetails);
         }
@@ -121,7 +121,7 @@ namespace Clothes_Shop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "BasketId", basketDetails.BasketId);
+            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "UserId", basketDetails.BasketId);
             ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", basketDetails.ProductId);
             return View(basketDetails);
         }

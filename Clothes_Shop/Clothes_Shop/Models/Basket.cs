@@ -15,9 +15,9 @@ namespace Clothes_Shop.Models
         }
 
         public int BasketId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual AspNetUsers User { get; set; }
         public virtual ICollection<BasketDetails> BasketDetails { get; set; }
     }
 }

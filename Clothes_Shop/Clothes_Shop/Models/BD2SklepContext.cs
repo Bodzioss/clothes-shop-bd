@@ -19,6 +19,13 @@ namespace Clothes_Shop.Models
         {
         }
 
+        public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Basket> Basket { get; set; }
         public virtual DbSet<BasketDetails> BasketDetails { get; set; }
         public virtual DbSet<BrandTab> BrandTab { get; set; }
@@ -35,34 +42,160 @@ namespace Clothes_Shop.Models
         public virtual DbSet<Shipper> Shipper { get; set; }
         public virtual DbSet<SizeTab> SizeTab { get; set; }
         public virtual DbSet<StreetTab> StreetTab { get; set; }
-        public virtual DbSet<User> User { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-AMGTN3U;Database=BD2.Sklep;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-AMGTN3U; Database=BD2.Sklep1; Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AspNetRoleClaims>(entity =>
+            {
+                entity.HasIndex(e => e.RoleId);
+
+                entity.Property(e => e.RoleId).IsRequired();
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.AspNetRoleClaims)
+                    .HasForeignKey(d => d.RoleId);
+            });
+
+            modelBuilder.Entity<AspNetRoles>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedName)
+                    .HasName("RoleNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
+
+                entity.Property(e => e.Name).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<AspNetUserClaims>(entity =>
+            {
+                entity.HasIndex(e => e.UserId);
+
+                entity.Property(e => e.UserId).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserClaims)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserLogins>(entity =>
+            {
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+                entity.HasIndex(e => e.UserId);
+
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
+
+                entity.Property(e => e.ProviderKey).HasMaxLength(128);
+
+                entity.Property(e => e.UserId).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserLogins)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserRoles>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.RoleId });
+
+                entity.HasIndex(e => e.RoleId);
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.AspNetUserRoles)
+                    .HasForeignKey(d => d.RoleId);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserRoles)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUserTokens>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserTokens)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUsers>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("EmailIndex");
+
+                entity.HasIndex(e => e.NormalizedUserName)
+                    .HasName("UserNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+                entity.Property(e => e.CityId).HasColumnName("CityID");
+
+                entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.FirstName).HasMaxLength(50);
+
+                entity.Property(e => e.LastName).HasMaxLength(50);
+
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+
+                entity.Property(e => e.StreetId).HasColumnName("StreetID");
+
+                entity.Property(e => e.UserName).HasMaxLength(256);
+
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.CityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AspNetUsers_CityTab");
+
+                entity.HasOne(d => d.Street)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.StreetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AspNetUsers_StreetTab");
+            });
+
             modelBuilder.Entity<Basket>(entity =>
             {
+                entity.HasIndex(e => e.UserId);
+
                 entity.Property(e => e.BasketId).HasColumnName("BasketID");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasColumnName("UserID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Basket)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Basket_User");
+                    .HasConstraintName("FK_Basket_AspNetUsers");
             });
 
             modelBuilder.Entity<BasketDetails>(entity =>
             {
+                entity.HasIndex(e => e.BasketId);
+
+                entity.HasIndex(e => e.ProductId);
+
                 entity.Property(e => e.BasketDetailsId).HasColumnName("BasketDetailsID");
 
                 entity.Property(e => e.BasketId).HasColumnName("BasketID");
@@ -130,6 +263,12 @@ namespace Clothes_Shop.Models
 
             modelBuilder.Entity<ClientAddress>(entity =>
             {
+                entity.HasIndex(e => e.CityId);
+
+                entity.HasIndex(e => e.StreetId);
+
+                entity.HasIndex(e => e.UserId);
+
                 entity.Property(e => e.ClientAddressId).HasColumnName("ClientAddressID");
 
                 entity.Property(e => e.CityId).HasColumnName("CityID");
@@ -148,24 +287,6 @@ namespace Clothes_Shop.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.HasOne(d => d.City)
-                    .WithMany(p => p.ClientAddress)
-                    .HasForeignKey(d => d.CityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ClientAddress_CityTab1");
-
-                entity.HasOne(d => d.Street)
-                    .WithMany(p => p.ClientAddress)
-                    .HasForeignKey(d => d.StreetId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ClientAddress_StreetTab");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.ClientAddress)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ClientAddress_User");
             });
 
             modelBuilder.Entity<ColorTab>(entity =>
@@ -213,13 +334,19 @@ namespace Clothes_Shop.Models
 
             modelBuilder.Entity<Opinion>(entity =>
             {
+                entity.HasIndex(e => e.ProductId);
+
+                entity.HasIndex(e => e.UserId);
+
                 entity.Property(e => e.OpinionId).HasColumnName("OpinionID");
 
                 entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasColumnName("UserID");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Opinion)
@@ -231,11 +358,15 @@ namespace Clothes_Shop.Models
                     .WithMany(p => p.Opinion)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Opinion_User");
+                    .HasConstraintName("FK_Opinion_AspNetUsers");
             });
 
             modelBuilder.Entity<OrderDetails>(entity =>
             {
+                entity.HasIndex(e => e.OrderId);
+
+                entity.HasIndex(e => e.ProductId);
+
                 entity.Property(e => e.OrderDetailsId).HasColumnName("OrderDetailsID");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
@@ -263,6 +394,10 @@ namespace Clothes_Shop.Models
                 entity.HasIndex(e => e.OrderDate)
                     .HasName("IX_Orders_1");
 
+                entity.HasIndex(e => e.ShipperId);
+
+                entity.HasIndex(e => e.UserId);
+
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
                 entity.Property(e => e.OrderDate).HasColumnType("date");
@@ -281,7 +416,9 @@ namespace Clothes_Shop.Models
 
                 entity.Property(e => e.ShipperId).HasColumnName("ShipperID");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasColumnName("UserID");
 
                 entity.HasOne(d => d.Shipper)
                     .WithMany(p => p.Orders)
@@ -293,13 +430,23 @@ namespace Clothes_Shop.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Order_User");
+                    .HasConstraintName("FK_Orders_AspNetUsers");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasIndex(e => e.Amount)
                     .HasName("IX_Product_5");
+
+                entity.HasIndex(e => e.BrandId);
+
+                entity.HasIndex(e => e.CategoryId);
+
+                entity.HasIndex(e => e.ColorId);
+
+                entity.HasIndex(e => e.GenderId);
+
+                entity.HasIndex(e => e.MaterialId);
 
                 entity.HasIndex(e => e.Pattern)
                     .HasName("IX_Product_4");
@@ -312,6 +459,8 @@ namespace Clothes_Shop.Models
 
                 entity.HasIndex(e => e.Season)
                     .HasName("IX_Product_3");
+
+                entity.HasIndex(e => e.SizeId);
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
@@ -424,59 +573,7 @@ namespace Clothes_Shop.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasIndex(e => e.Email)
-                    .HasName("IX_User_5");
-
-                entity.HasIndex(e => e.FirstName)
-                    .HasName("IX_User_1");
-
-                entity.HasIndex(e => e.LastName)
-                    .HasName("IX_User_3");
-
-                entity.HasIndex(e => e.Login)
-                    .HasName("IX_User_7")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.PhoneNumber)
-                    .HasName("IX_User_4");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.Property(e => e.CityId).HasColumnName("CityID");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(130)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.Property(e => e.PhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(9)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.Property(e => e.StreetId).HasColumnName("StreetID");
-            });
+         
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -16,9 +16,5 @@ namespace Clothes_Shop.Models
         public string StreetNumber { get; set; }
         public string HomeNumber { get; set; }
         public bool IsMain { get; set; }
-
-        public virtual CityTab City { get; set; }
-        public virtual StreetTab Street { get; set; }
-        public virtual User User { get; set; }
     }
 }

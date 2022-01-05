@@ -2,25 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
-<asp:DropDownList ID="ddList" runat="server">
-    <asp:ListItem Value="">--Select Month--</asp:ListItem>
-    <asp:ListItem Value="1">January</asp:ListItem>
-    <asp:ListItem Value="2">Feburary</asp:ListItem>
-    <asp:ListItem Value="12">December</asp:ListItem>
-</asp:DropDownList>
-@*@Html.DropDownList("CityID",Model as SelectList);*@
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Woman
-    </a>
-    @*<select id ="Selext1" asp-items=Model></select>*@
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
-        @(new SelectList(Model as SelectList));
-    </div>
-</li>
 
 <p>
     <a asp-action="Create">Create New</a>
