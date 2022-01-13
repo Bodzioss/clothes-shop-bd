@@ -11,6 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Clothes_Shop.Areas.Identity.Data;
+using Clothes_Shop.Data;
+using Clothes_Shop.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace Clothes_Shop
 {
@@ -27,8 +31,13 @@ namespace Clothes_Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             services.AddDbContext<BD2SklepContext>(opt =>
                  opt.UseSqlServer(Configuration.GetConnectionString("ClothesShopContext")));
+
+            //        services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
+
+          
 
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();

@@ -6,17 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
+using Clothes_Shop.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clothes_Shop.Controllers
 {
     public class OrdersController : Controller
     {
         private readonly BD2SklepContext _context;
+        private readonly OrderRepository _orderRepository = null;
 
-        public OrdersController(BD2SklepContext context)
+        public OrdersController(BD2SklepContext context, OrderRepository orderRepository)
         {
             _context = context;
+            _orderRepository = orderRepository;
         }
+      
 
         // GET: Orders
         public async Task<IActionResult> Index()
@@ -46,12 +51,32 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Orders/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName");
             ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewBook(String paymentType,int shipperId,int discount,string description)
+        {
+            Orders model = new Orders();
+            model.UserId = "0";
+            model.PaymentType = paymentType;
+            model.PaymentStatus = "Rozpoczęta";
+            model.PaymentDate = null;
+            model.OrderDate = DateTime.UtcNow;
+            model.ShipDate = null;
+            model.ShipperId = shipperId;
+            model.Discount = discount;
+            model.Description = description;
+            int id = await _orderRepository.AddNewBook(model);
+
+            return RedirectToAction("Index");
+        }
+
 
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -160,6 +185,13 @@ namespace Clothes_Shop.Controllers
         private bool OrdersExists(int id)
         {
             return _context.Orders.Any(e => e.OrderId == id);
+        }
+
+ 
+        public IActionResult FinalizeOrder()
+        {
+          
+            return View();
         }
     }
 }

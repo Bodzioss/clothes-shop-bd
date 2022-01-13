@@ -49,7 +49,7 @@ namespace Clothes_Shop.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-AMGTN3U; Database=BD2.Sklep1; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-AMGTN3U; Database=BD2.Sklep; Trusted_Connection=True;");
             }
         }
 
@@ -480,7 +480,7 @@ namespace Clothes_Shop.Models
 
                 entity.Property(e => e.Picture).HasMaxLength(2048);
 
-                entity.Property(e => e.Price).HasColumnType("decimal(5, 2)");
+                entity.Property(e => e.Price).HasColumnType("decimal(7, 2)");
 
                 entity.Property(e => e.ProductName)
                     .IsRequired()
@@ -572,8 +572,6 @@ namespace Clothes_Shop.Models
                     .IsRequired()
                     .HasMaxLength(50);
             });
-
-         
 
             OnModelCreatingPartial(modelBuilder);
         }

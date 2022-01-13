@@ -1,0 +1,123 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Clothes_Shop.Areas.Identity.Data
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Http
+
+@inject UserManager<ApplicationUser> UserManager;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User);
+    var roles = await UserManager.GetRolesAsync(user);
+
+    @if (roles[0] == "Admin")
+    {
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Opcje administratora
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index">Produkty</a>
+                    <a class="dropdown-item" asp-controller="CategoryTabs" asp-action="Index">CategoryTabs</a>
+                    <a class="dropdown-item" asp-controller="Shippers" asp-action="Index">Shipper</a>
+                    <a class="dropdown-item" asp-controller="BrandTabs" asp-action="Index">BrandTabs</a>
+                    <a class="dropdown-item" asp-controller="CityTabs" asp-action="Index">CityTabs</a>
+                    <a class="dropdown-item" asp-controller="StreetTabs" asp-action="Index">StreetTabs</a>
+                    <a class="dropdown-item" asp-controller="ColorTabs" asp-action="Index">ColorTabs</a>
+                    <a class="dropdown-item" asp-controller="GenderTabs" asp-action="Index">GenderTabs</a>
+                    <a class="dropdown-item" asp-controller="MaterialTabs" asp-action="Index">MaterialTabs</a>
+                    <a class="dropdown-item" asp-controller="SizeTabs" asp-action="Index">SizeTabs</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Man
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index">Produkty</a>
+                    <a class="dropdown-item" asp-controller="Opinions" asp-action="Index">Opinion</a>
+                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
+                    <a class="dropdown-item" asp-controller="Shippers" asp-action="Index">Shipper</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Kids
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index">Produkty</a>
+                    <a class="dropdown-item" asp-controller="Opinions" asp-action="Index">Opinion</a>
+                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
+                    <a class="dropdown-item" asp-controller="Shippers" asp-action="Index">Shipper</a>
+                </div>
+            </li>
+        </ul>
+    }
+    else
+    {
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"asp-controller="Products" asp-action="Index" asp-route-id ="0" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Kobieta
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="0">Wszystko</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="13">T-Shirty</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="14">Koszule</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="15">Bluzy</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="16">Kurtki</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="17">Spodnie</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="18">Szorty</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="19">Bielizna</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="110">Sukienki</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="111">Spódnice</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="112">Topy</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="113">Kombinezony</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" asp-controller="Products" asp-action="Index" asp-route-id ="1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mężczyzna
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="1">Wszystko</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="23">T-Shirty</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="24">Koszule</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="25">Bluzy</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="26">Kurtki</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="27">Spodnie</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="28">Szorty</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="29">Bielizna</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" asp-controller="Products" asp-action="Index" asp-route-id ="2" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dziecko
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="2">Wszystko</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="33">T-Shirty</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="34">Koszule</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="35">Bluzy</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="36">Kurtki</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="37">Spodnie</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="38">Szorty</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="39">Bielizna</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="310">Sukienki</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="311">Spódnice</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="312">Topy</a>
+                    <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="313">Kombinezony</a>
+                </div>
+            </li>
+        </ul>
+    }
+}

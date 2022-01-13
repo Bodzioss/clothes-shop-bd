@@ -18,35 +18,35 @@
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
                         <div class="form-group">
-                            <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
+                            <input asp-for="Input.FirstName" class="form-control" placeholder="Imię" />
                             <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-xs-6 col-md-6">
                         <div class="form-group">
-                            <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
+                            <input asp-for="Input.LastName" class="form-control" placeholder="Nazwisko" />
                             <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <select asp-for="Input.CityID" class="form-control" asp-items="ViewBag.CityId" placeholder="City"/>
+                    <input asp-for="Input.CityID" class="form-control" asp-items="ViewBag.CityId" placeholder="Miasto"/>
                     <span asp-validation-for="Input.CityID" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="Input.StreetID" class="form-control" asp-items="ViewBag.StreetId" placeholder="City"/>
+                    <input asp-for="Input.StreetID" class="form-control" asp-items="ViewBag.StreetId" placeholder="Ulica"/>
                     <span asp-validation-for="Input.StreetID" class="text-danger"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
                         <div class="form-group">
-                            <input asp-for="Input.StreetNumber" class="form-control" placeholder="StreetNumber" />
+                            <input asp-for="Input.StreetNumber" class="form-control" placeholder="Numer domu" />
                             <span asp-validation-for="Input.StreetNumber" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-xs-6 col-md-6">
                         <div class="form-group">
-                            <input asp-for="Input.HomeNumber" class="form-control" placeholder="HomeNumber" />
+                            <input asp-for="Input.HomeNumber" class="form-control" placeholder="Numer mieszkania" />
                             <span asp-validation-for="Input.HomeNumber" class="text-danger"></span>
                         </div>
                     </div>
@@ -56,15 +56,15 @@
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Phone Number" />
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Numer telefonu" />
                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="Input.Password" class="form-control" placeholder="Password" />
+                    <input asp-for="Input.Password" class="form-control" placeholder="Hasło" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Potwierdź hasło" />
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <p>
-                        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">I already have an account</a>
+                        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Mam już konto</a>
                     </p>
                 </div>
             </form>

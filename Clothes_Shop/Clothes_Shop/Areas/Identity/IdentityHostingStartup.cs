@@ -20,12 +20,14 @@ namespace Clothes_Shop.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("BD2SklepAuthContextConnection")));
 
+              
                 services.AddDefaultIdentity<ApplicationUser>(
                         options =>
                         {
                             options.SignIn.RequireConfirmedAccount = false;
                             options.Password.RequireNonAlphanumeric = false;
                         })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<BD2SklepAuthContext>();
             });
         }
