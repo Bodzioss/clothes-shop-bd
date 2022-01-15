@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
+using Clothes_Shop.Repository;
 
 namespace Clothes_Shop.Controllers
 {
     public class BasketDetailsController : Controller
     {
         private readonly BD2SklepContext _context;
+        private readonly BasketRepository _basketRepository;
+        private readonly BasketDetailsRepository _basketDetailsRepository;
 
-        public BasketDetailsController(BD2SklepContext context)
+        public BasketDetailsController(BD2SklepContext context,BasketRepository basketRepository,BasketDetailsRepository basketDetailsRepository)
         {
             _context = context;
+            _basketRepository = basketRepository;
+            _basketDetailsRepository = basketDetailsRepository;
         }
 
         // GET: BasketDetails
@@ -160,6 +166,34 @@ namespace Clothes_Shop.Controllers
         private bool BasketDetailsExists(int id)
         {
             return _context.BasketDetails.Any(e => e.BasketDetailsId == id);
+        }
+
+       
+        public IActionResult AddToBasket(int? id)
+        {
+
+            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", id);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToBasket(BasketDetails basketDetails, int id)
+        {
+            Basket basket;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!(_context.Basket.Any(e => e.UserId == userId)))
+            { 
+                basket = new Basket();
+                basket.UserId = userId;
+                await _basketRepository.AddNewBasket(basket);
+            }
+
+            basket =await _context.Basket.FirstOrDefaultAsync(m => m.UserId == userId);
+            basketDetails.BasketId = basket.BasketId;
+            basketDetails.ProductId = id;
+            await _basketDetailsRepository.AddNewBasketDetails(basketDetails);
+
+            return RedirectToAction("Index");
         }
     }
 }

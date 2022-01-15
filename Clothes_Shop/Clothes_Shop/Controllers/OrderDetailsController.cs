@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
+using Clothes_Shop.Repository;
 
 namespace Clothes_Shop.Controllers
 {
     public class OrderDetailsController : Controller
     {
         private readonly BD2SklepContext _context;
+        private readonly OrderRepository _orderRepository;
+        private readonly OrderDetailsRepository _orderDetailsRepository;
 
-        public OrderDetailsController(BD2SklepContext context)
+        public OrderDetailsController(BD2SklepContext context, OrderDetailsRepository orderDetailsRepository,OrderRepository orderRepository)
         {
             _context = context;
+            _orderDetailsRepository = orderDetailsRepository;
+            _orderRepository = orderRepository;
         }
 
         // GET: OrderDetails
@@ -160,6 +166,32 @@ namespace Clothes_Shop.Controllers
         private bool OrderDetailsExists(int id)
         {
             return _context.OrderDetails.Any(e => e.OrderDetailsId == id);
+        }
+
+        public IActionResult FinalizeOrderDetails(int? id)
+        {
+            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "Pattern", id);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FinalizeOrderDetails(OrderDetails orderDetails, int id)
+        {
+            Orders orders;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            orders = new Orders();
+            orders.UserId = userId;
+            orders.PaymentType = orders.OrderId.ToString();
+            orders.PaymentStatus="Rozpoczęta";
+            orders.ShipperId = 1;
+            await _orderRepository.AddNewOrder(orders);
+            orders = await _context.Orders.FirstOrDefaultAsync(m => m.UserId == userId);
+            orderDetails.OrderId = orders.OrderId;
+            orderDetails.ProductId = id;
+            await _orderDetailsRepository.AddNewOrderDetails(orderDetails);
+
+            return RedirectToAction("FinalizeOrder","Orders", new { id = orders.OrderId });
         }
     }
 }

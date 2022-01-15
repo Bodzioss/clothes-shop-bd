@@ -14,7 +14,7 @@ namespace Clothes_Shop.Repository
             _context = context;
         }
 
-        public async Task<int> AddNewBook(Orders model)
+        public async Task<int> AddNewOrder(Orders model)
         {
             var newOrder = new Orders()
             {

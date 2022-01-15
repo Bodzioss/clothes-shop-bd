@@ -1,23 +1,45 @@
 ﻿@model Clothes_Shop.Models.Orders
 
 @{
-    ViewData["Title"] = "FinalizingOrder";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Edit</h1>
 
-<div>
-    <h4>Orders</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User)
-        </dd>
-    </dl>
+<h4>Orders</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="FinalizeOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OrderId" />
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="PaymentType" class="control-label"></label>
+                <input asp-for="PaymentType" class="form-control" />
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="PaymentStatus" />
+            <input type="hidden" asp-for="PaymentStatus" />
+            <input type="hidden" asp-for="OrderDate" />
+            <input type="hidden" asp-for="ShipDate" />
+            <div class="form-group">
+                <label asp-for="ShipperId" class="control-label"></label>
+                <select asp-for="ShipperId" class="form-control" asp-items="ViewBag.ShipperId"></select>
+                <span asp-validation-for="ShipperId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Discount" />
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 
 

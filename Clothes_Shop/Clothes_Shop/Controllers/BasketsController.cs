@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
+using Clothes_Shop.Repository;
 
 namespace Clothes_Shop.Controllers
 {
     public class BasketsController : Controller
     {
         private readonly BD2SklepContext _context;
+        private readonly BasketRepository _basketRepository;
 
-        public BasketsController(BD2SklepContext context)
+        public BasketsController(BD2SklepContext context,BasketRepository basketRepository)
         {
             _context = context;
+            _basketRepository = basketRepository;
         }
 
         // GET: Baskets
@@ -155,5 +159,9 @@ namespace Clothes_Shop.Controllers
         {
             return _context.Basket.Any(e => e.BasketId == id);
         }
+
+
+
+      
     }
 }

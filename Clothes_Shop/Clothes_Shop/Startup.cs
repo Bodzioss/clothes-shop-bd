@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Clothes_Shop.Areas.Identity.Data;
 using Clothes_Shop.Data;
 using Clothes_Shop.Helpers;
+using Clothes_Shop.Repository;
 using Microsoft.AspNetCore.Identity;
 
 namespace Clothes_Shop
@@ -31,6 +32,11 @@ namespace Clothes_Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddScoped<OrderRepository, OrderRepository>();
+            services.AddScoped<BasketRepository, BasketRepository>();
+            services.AddScoped<BasketDetailsRepository, BasketDetailsRepository>();
+            services.AddScoped<OrderDetailsRepository, OrderDetailsRepository>();
 
             services.AddDbContext<BD2SklepContext>(opt =>
                  opt.UseSqlServer(Configuration.GetConnectionString("ClothesShopContext")));

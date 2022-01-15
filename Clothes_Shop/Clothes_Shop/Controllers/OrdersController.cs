@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Clothes_Shop.Areas.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
 using Clothes_Shop.Repository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Clothes_Shop.Controllers
 {
@@ -15,11 +19,13 @@ namespace Clothes_Shop.Controllers
     {
         private readonly BD2SklepContext _context;
         private readonly OrderRepository _orderRepository = null;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrdersController(BD2SklepContext context, OrderRepository orderRepository)
+        public OrdersController(BD2SklepContext context, OrderRepository orderRepository,UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _orderRepository = orderRepository;
+            _userManager = userManager;
         }
       
 
@@ -59,23 +65,7 @@ namespace Clothes_Shop.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddNewBook(String paymentType,int shipperId,int discount,string description)
-        {
-            Orders model = new Orders();
-            model.UserId = "0";
-            model.PaymentType = paymentType;
-            model.PaymentStatus = "Rozpoczęta";
-            model.PaymentDate = null;
-            model.OrderDate = DateTime.UtcNow;
-            model.ShipDate = null;
-            model.ShipperId = shipperId;
-            model.Discount = discount;
-            model.Description = description;
-            int id = await _orderRepository.AddNewBook(model);
-
-            return RedirectToAction("Index");
-        }
+      
 
 
         // POST: Orders/Create
@@ -187,11 +177,55 @@ namespace Clothes_Shop.Controllers
             return _context.Orders.Any(e => e.OrderId == id);
         }
 
- 
-        public IActionResult FinalizeOrder()
+       
+        public async Task<IActionResult> FinalizeOrder(int? id)
         {
-          
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var orders = await _context.Orders.FindAsync(id);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName", orders.ShipperId);
+            return View(orders);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FinalizeOrder(int id, [Bind("OrderId,UserId,PaymentType,PaymentStatus,PaymentDate,OrderDate,ShipDate,ShipperId,Discount,Description")] Orders orders)
+        {
+            orders.OrderDate=DateTime.UtcNow;
+            if (id != orders.OrderId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(orders);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OrdersExists(orders.OrderId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName", orders.ShipperId);
+            ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", orders.UserId);
+            return View(orders);
         }
     }
 }
