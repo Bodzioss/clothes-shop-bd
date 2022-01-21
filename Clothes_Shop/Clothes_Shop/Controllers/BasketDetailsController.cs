@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
 using Clothes_Shop.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clothes_Shop.Controllers
 {
@@ -17,7 +18,7 @@ namespace Clothes_Shop.Controllers
         private readonly BasketRepository _basketRepository;
         private readonly BasketDetailsRepository _basketDetailsRepository;
 
-        public BasketDetailsController(BD2SklepContext context,BasketRepository basketRepository,BasketDetailsRepository basketDetailsRepository)
+        public BasketDetailsController(BD2SklepContext context, BasketRepository basketRepository, BasketDetailsRepository basketDetailsRepository)
         {
             _context = context;
             _basketRepository = basketRepository;
@@ -52,6 +53,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: BasketDetails/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "UserId");
@@ -78,6 +80,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: BasketDetails/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -133,6 +136,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: BasketDetails/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -168,7 +172,7 @@ namespace Clothes_Shop.Controllers
             return _context.BasketDetails.Any(e => e.BasketDetailsId == id);
         }
 
-       
+
         public IActionResult AddToBasket(int? id)
         {
 
@@ -182,13 +186,13 @@ namespace Clothes_Shop.Controllers
             Basket basket;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!(_context.Basket.Any(e => e.UserId == userId)))
-            { 
+            {
                 basket = new Basket();
                 basket.UserId = userId;
                 await _basketRepository.AddNewBasket(basket);
             }
 
-            basket =await _context.Basket.FirstOrDefaultAsync(m => m.UserId == userId);
+            basket = await _context.Basket.FirstOrDefaultAsync(m => m.UserId == userId);
             basketDetails.BasketId = basket.BasketId;
             basketDetails.ProductId = id;
             await _basketDetailsRepository.AddNewBasketDetails(basketDetails);

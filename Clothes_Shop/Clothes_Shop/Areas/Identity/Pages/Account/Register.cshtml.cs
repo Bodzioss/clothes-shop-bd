@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Clothes_Shop.Areas.Identity.Data;
 using Clothes_Shop.Models;
-using Clothes_Shop.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +27,7 @@ namespace Clothes_Shop.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly BD2SklepContext _context;
-        private readonly BasketRepository _basketRepository;
+
 
 
         public RegisterModel(
@@ -37,17 +35,16 @@ namespace Clothes_Shop.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            BD2SklepContext context,BasketRepository basketRepository)
+            BD2SklepContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _context = context;
-            _basketRepository = basketRepository;
 
-
-    }
+           
+        }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -121,12 +118,10 @@ namespace Clothes_Shop.Areas.Identity.Pages.Account
             ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName");
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-           
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, PhoneNumber = Input.PhoneNumber, CityID = Input.CityID, StreetID = Input.StreetID, StreetNumber = Input.StreetNumber, HomeNumber = Input.HomeNumber};
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -157,6 +152,7 @@ namespace Clothes_Shop.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
             // If we got this far, something failed, redisplay form
             return Page();
         }

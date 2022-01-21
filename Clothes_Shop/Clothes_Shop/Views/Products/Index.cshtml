@@ -1,104 +1,39 @@
 ﻿@model IEnumerable<Clothes_Shop.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Produkty";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Season)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pattern)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Brand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Material)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Size)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Season)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pattern)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand.BrandName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color.ColorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender.GenderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Material.MaterialName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size.SizeName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                <a asp-controller="BasketDetails" asp-action="AddToBasket" asp-route-id="@item.ProductId">Dodaj do koszyka</a>
-                <a asp-controller="OrderDetails" asp-action="FinalizeOrderDetails" asp-route-id="@item.ProductId">Kup</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <section class="section-products">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="header">
+                        <h3>Featured Product</h3>
+                        <h2>Popular Products</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            @foreach (var item in Model)
+            {
+                <!-- Single Product -->
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div id="product-1" class="single-product">
+                        <div class="part-1" style="background: url('@Html.DisplayFor(modelItem => item.Picture)') no-repeat center; background-size: cover">
+                            <ul>
+                                <li><a asp-controller="BasketDetails" asp-action="AddToBasket" asp-route-id="@item.ProductId"><i class="fas fa-plus"></i></a></li>
+                                <li><a asp-controller="OrderDetails" asp-action="FinalizeOrderDetails" asp-route-id="@item.ProductId"><i class="fas fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="part-2">
+                            <h3 class="product-title">@Html.DisplayFor(modelItem => item.ProductName)</h3>
+                            <h4 class="product-price">@Html.DisplayFor(modelItem => item.Price) zł</h4>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </section>

@@ -247,6 +247,10 @@ namespace Clothes_Shop.Controllers
             return View(product);
         }
 
+        public async Task<IActionResult> Index2()
+        {
+            return View(await _context.Product.ToListAsync());
+        }
 
         // GET: Products/Create
         [Authorize(Roles = "Admin")]

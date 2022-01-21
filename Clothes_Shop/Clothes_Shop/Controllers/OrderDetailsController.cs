@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
 using Clothes_Shop.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clothes_Shop.Controllers
 {
@@ -17,7 +18,7 @@ namespace Clothes_Shop.Controllers
         private readonly OrderRepository _orderRepository;
         private readonly OrderDetailsRepository _orderDetailsRepository;
 
-        public OrderDetailsController(BD2SklepContext context, OrderDetailsRepository orderDetailsRepository,OrderRepository orderRepository)
+        public OrderDetailsController(BD2SklepContext context, OrderDetailsRepository orderDetailsRepository, OrderRepository orderRepository)
         {
             _context = context;
             _orderDetailsRepository = orderDetailsRepository;
@@ -78,6 +79,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: OrderDetails/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -133,6 +135,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: OrderDetails/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -183,7 +186,7 @@ namespace Clothes_Shop.Controllers
             orders = new Orders();
             orders.UserId = userId;
             orders.PaymentType = orders.OrderId.ToString();
-            orders.PaymentStatus="Rozpoczęta";
+            orders.PaymentStatus = "Rozpoczęta";
             orders.ShipperId = 1;
             await _orderRepository.AddNewOrder(orders);
             orders = await _context.Orders.FirstOrDefaultAsync(m => m.UserId == userId);
@@ -191,7 +194,7 @@ namespace Clothes_Shop.Controllers
             orderDetails.ProductId = id;
             await _orderDetailsRepository.AddNewOrderDetails(orderDetails);
 
-            return RedirectToAction("FinalizeOrder","Orders", new { id = orders.OrderId });
+            return RedirectToAction("FinalizeOrder", "Orders", new { id = orders.OrderId });
         }
     }
 }

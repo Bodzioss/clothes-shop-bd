@@ -1,5 +1,4 @@
 ﻿
-
 .login-container {
     margin-bottom: 5%;
     margin-top: 5%;
@@ -11,10 +10,10 @@
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
 
-.login-form-1 h3 {
-    text-align:center;
-    color: #333;
-}
+    .login-form-1 h3 {
+        text-align: center;
+        color: #333;
+    }
 
 .login-container form {
     padding: 5%;
@@ -71,15 +70,15 @@ legend {
     text-decoration: none;
 }
 
-.signup-btn:hover {
-    background: #79bc64;
-    background-image: -webkit-linear-gradient(top, #79bc64, #5e7056);
-    background-image: -moz-linear-gradient(top, #79bc64, #5e7056);
-    background-image: -ms-linear-gradient(top, #79bc64, #5e7056);
-    background-image: -o-linear-gradient(top, #79bc64, #5e7056);
-    background-image: linear-gradient(to bottom, #79bc64, #5e7056);
-    text-decoration: none;
-}
+    .signup-btn:hover {
+        background: #79bc64;
+        background-image: -webkit-linear-gradient(top, #79bc64, #5e7056);
+        background-image: -moz-linear-gradient(top, #79bc64, #5e7056);
+        background-image: -ms-linear-gradient(top, #79bc64, #5e7056);
+        background-image: -o-linear-gradient(top, #79bc64, #5e7056);
+        background-image: linear-gradient(to bottom, #79bc64, #5e7056);
+        text-decoration: none;
+    }
 
 
 .form .form-control {
@@ -91,9 +90,9 @@ legend {
         margin-top: 50px;
     }
 
-    #home .slogan {
-        color: #0e385f;
-        line-height: 29px;
-        font-weight: bold;
-    }
+        #home .slogan {
+            color: #0e385f;
+            line-height: 29px;
+            font-weight: bold;
+        }
 }

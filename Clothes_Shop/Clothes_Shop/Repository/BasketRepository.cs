@@ -30,4 +30,3 @@ namespace Clothes_Shop.Repository
 
     }
 }
-

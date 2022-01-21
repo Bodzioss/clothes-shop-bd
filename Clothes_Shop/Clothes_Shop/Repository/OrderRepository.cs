@@ -35,6 +35,6 @@ namespace Clothes_Shop.Repository
             return newOrder.OrderId;
         }
 
-       
+
     }
 }

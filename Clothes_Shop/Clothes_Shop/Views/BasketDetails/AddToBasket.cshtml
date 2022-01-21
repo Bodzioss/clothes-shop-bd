@@ -9,23 +9,24 @@
 
 <h4>BasketDetails</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddToBasket">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container align-content-center m-auto">
+    <div class="row justify-content-center" style="">
+        <div class="col-md-4">
+            <form asp-action="AddToBasket">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 <div>
     <a asp-action="Index" asp-route-id="ViewBag.ProductId">Back to List</a>
 </div>

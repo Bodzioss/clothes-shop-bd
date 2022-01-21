@@ -8,44 +8,44 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Dodaj produkt</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShipDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Shipper)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Numer identyfikacyjny zamówienia
+        </th>
+        <th>
+          Rodzaj płatności
+        </th>
+        <th>
+          Status płatności
+        </th>
+        <th>
+           Data płatności
+        </th>
+        <th>
+            Data złożenia zamówienia
+        </th>
+        <th>
+           Data wysyłki
+        </th>
+        <th>
+           Opis zamówienia
+        </th>
+        <th>
+            Dostawca
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+    <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PaymentType)
             </td>
@@ -61,19 +61,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ShipDate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
+        <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Shipper.CompanyName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
+        <td>
                 <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>

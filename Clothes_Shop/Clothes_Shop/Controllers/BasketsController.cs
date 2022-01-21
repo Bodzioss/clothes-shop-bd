@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
-using Clothes_Shop.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clothes_Shop.Controllers
 {
     public class BasketsController : Controller
     {
         private readonly BD2SklepContext _context;
-        private readonly BasketRepository _basketRepository;
 
-        public BasketsController(BD2SklepContext context,BasketRepository basketRepository)
+        public BasketsController(BD2SklepContext context)
         {
             _context = context;
-            _basketRepository = basketRepository;
         }
 
         // GET: Baskets
@@ -49,6 +46,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Baskets/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
@@ -73,6 +71,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Baskets/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -126,6 +125,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Baskets/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,9 +159,5 @@ namespace Clothes_Shop.Controllers
         {
             return _context.Basket.Any(e => e.BasketId == id);
         }
-
-
-
-      
     }
 }

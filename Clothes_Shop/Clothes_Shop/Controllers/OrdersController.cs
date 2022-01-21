@@ -21,13 +21,13 @@ namespace Clothes_Shop.Controllers
         private readonly OrderRepository _orderRepository = null;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrdersController(BD2SklepContext context, OrderRepository orderRepository,UserManager<ApplicationUser> userManager)
+        public OrdersController(BD2SklepContext context, OrderRepository orderRepository, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _orderRepository = orderRepository;
             _userManager = userManager;
         }
-      
+
 
         // GET: Orders
         public async Task<IActionResult> Index()
@@ -57,7 +57,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Orders/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName");
@@ -65,7 +65,7 @@ namespace Clothes_Shop.Controllers
             return View();
         }
 
-      
+
 
 
         // POST: Orders/Create
@@ -87,6 +87,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -142,6 +143,7 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -177,7 +179,7 @@ namespace Clothes_Shop.Controllers
             return _context.Orders.Any(e => e.OrderId == id);
         }
 
-       
+
         public async Task<IActionResult> FinalizeOrder(int? id)
         {
             if (id == null)
@@ -197,7 +199,7 @@ namespace Clothes_Shop.Controllers
         [HttpPost]
         public async Task<IActionResult> FinalizeOrder(int id, [Bind("OrderId,UserId,PaymentType,PaymentStatus,PaymentDate,OrderDate,ShipDate,ShipperId,Discount,Description")] Orders orders)
         {
-            orders.OrderDate=DateTime.UtcNow;
+            orders.OrderDate = DateTime.UtcNow;
             if (id != orders.OrderId)
             {
                 return NotFound();
