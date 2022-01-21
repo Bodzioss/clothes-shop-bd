@@ -1,1 +1,2 @@
-# clothes-shop-bd
+# Sklep internetowy
+ASP.NET CORE
