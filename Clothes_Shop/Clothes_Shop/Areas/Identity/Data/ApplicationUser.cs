@@ -11,20 +11,20 @@ namespace Clothes_Shop.Areas.Identity.Data
     public class ApplicationUser : IdentityUser
     {
         [PersonalData]
-        [Column(TypeName = "nvarchar(50)")]
+        [Column(TypeName = "nvarchar(100)")]
         public String FirstName { get; set; }
 
         [PersonalData]
-        [Column(TypeName = "nvarchar(50)")]
+        [Column(TypeName = "nvarchar(100)")]
         public String LastName { get; set; }
 
         [PersonalData]
-        [Column(TypeName = "int")]
-        public int CityID { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public String CityName { get; set; }
 
         [PersonalData]
-        [Column(TypeName = "int")]
-        public int StreetID { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public String StreetName { get; set; }
 
         [PersonalData]
         [Column(TypeName = "int")]

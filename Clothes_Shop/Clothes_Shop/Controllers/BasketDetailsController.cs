@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,11 +25,34 @@ namespace Clothes_Shop.Controllers
         }
 
         // GET: BasketDetails
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String? id)
         {
-            var bD2SklepContext = _context.BasketDetails.Include(b => b.Basket).Include(b => b.Product);
-            return View(await bD2SklepContext.ToListAsync());
+            if (id == null)
+            {
+                var bD2SklepContext = _context.BasketDetails.Include(b => b.Basket).Include(b => b.Product);
+                return View(await bD2SklepContext.ToListAsync());
+            }
+            else
+            {
+                var basket = _context.Basket.Include(b => b.User).FirstOrDefaultAsync(m => m.UserId == id);
+                if (basket==null)
+                {
+                    var basketId = _context.Basket.Include(b => b.User).FirstOrDefault(m => m.UserId == id).BasketId;
+
+                    var bD2SklepContext = _context.BasketDetails.Include(b => b.Basket).Include(b => b.Product)
+                        .Where(m => m.BasketId == basketId).ToArray();
+                    return View(bD2SklepContext);
+                }
+                else
+                {
+                    return View();
+                }
+            }
+
+            
         }
+
+      
 
         // GET: BasketDetails/Details/5
         public async Task<IActionResult> Details(int? id)

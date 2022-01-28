@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,12 +17,14 @@ namespace Clothes_Shop.Controllers
     {
         private readonly BD2SklepContext _context;
         private readonly OrderRepository _orderRepository = null;
+        private readonly OrderDetailsRepository _orderDetailsRepository = null;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrdersController(BD2SklepContext context, OrderRepository orderRepository, UserManager<ApplicationUser> userManager)
+        public OrdersController(BD2SklepContext context, OrderRepository orderRepository, UserManager<ApplicationUser> userManager, OrderDetailsRepository orderDetailsRepository)
         {
             _context = context;
             _orderRepository = orderRepository;
+            _orderDetailsRepository = orderDetailsRepository;
             _userManager = userManager;
         }
 
@@ -228,6 +228,31 @@ namespace Clothes_Shop.Controllers
             ViewData["ShipperId"] = new SelectList(_context.Shipper, "ShipperId", "CompanyName", orders.ShipperId);
             ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", orders.UserId);
             return View(orders);
+        }
+
+        public async Task<IActionResult> CreateFromBasketAsync(int id)
+        {
+            var basketDetailsArray = _context.BasketDetails.Where(m => m.BasketId == id).ToArray();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var orders = new Orders();
+            orders.OrderId = _context.Orders.Where(m => m.UserId == userId).ToArray().LastOrDefault().OrderId;
+            orders.OrderId = orders.OrderId + 1;
+            orders.UserId = userId;
+            orders.PaymentType = orders.OrderId.ToString();
+            orders.PaymentStatus = "Rozpoczęta";
+            orders.ShipperId = 1;
+            var orderID =  await  _orderRepository.AddNewOrder(orders);
+            foreach (var basketDetails in basketDetailsArray)
+            {
+                var orderDetails = new OrderDetails();
+                orderDetails.OrderId = orderID;
+                orderDetails.ProductId = basketDetails.ProductId;
+                orderDetails.Quantity = basketDetails.Quantity;
+                orderDetails.Discount = 0;
+                await _orderDetailsRepository.AddNewOrderDetails(orderDetails);
+            }
+
+            return RedirectToAction("FinalizeOrder", "Orders", new { id = orderID });
         }
     }
 }

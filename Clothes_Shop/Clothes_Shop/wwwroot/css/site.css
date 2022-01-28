@@ -96,3 +96,11 @@ legend {
             font-weight: bold;
         }
 }
+
+.header {
+    width: 100%;
+}
+
+.main {
+    width: 100%
+}

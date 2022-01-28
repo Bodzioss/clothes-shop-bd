@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Shop.Models;
 
@@ -21,7 +18,7 @@ namespace Clothes_Shop.Controllers
         // GET: AspNetUsers
         public async Task<IActionResult> Index()
         {
-            var bD2SklepContext = _context.AspNetUsers.Include(a => a.City).Include(a => a.Street);
+            var bD2SklepContext = _context.AspNetUsers;
             return View(await bD2SklepContext.ToListAsync());
         }
 
@@ -34,8 +31,6 @@ namespace Clothes_Shop.Controllers
             }
 
             var aspNetUsers = await _context.AspNetUsers
-                .Include(a => a.City)
-                .Include(a => a.Street)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (aspNetUsers == null)
             {
@@ -48,8 +43,7 @@ namespace Clothes_Shop.Controllers
         // GET: AspNetUsers/Create
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.CityTab, "CityId", "CityName");
-            ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName");
+          
             return View();
         }
 
@@ -66,8 +60,6 @@ namespace Clothes_Shop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.CityTab, "CityId", "CityName", aspNetUsers.CityId);
-            ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName", aspNetUsers.StreetId);
             return View(aspNetUsers);
         }
 
@@ -84,8 +76,7 @@ namespace Clothes_Shop.Controllers
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.CityTab, "CityId", "CityName", aspNetUsers.CityId);
-            ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName", aspNetUsers.StreetId);
+           
             return View(aspNetUsers);
         }
 
@@ -121,8 +112,7 @@ namespace Clothes_Shop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CityId"] = new SelectList(_context.CityTab, "CityId", "CityName", aspNetUsers.CityId);
-            ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName", aspNetUsers.StreetId);
+           
             return View(aspNetUsers);
         }
 
@@ -135,8 +125,6 @@ namespace Clothes_Shop.Controllers
             }
 
             var aspNetUsers = await _context.AspNetUsers
-                .Include(a => a.City)
-                .Include(a => a.Street)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (aspNetUsers == null)
             {

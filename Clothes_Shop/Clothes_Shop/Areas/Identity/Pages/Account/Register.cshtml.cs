@@ -64,11 +64,11 @@ namespace Clothes_Shop.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
-            [Display(Name = "CityID")]
-            public int CityID { get; set; }
+            [Display(Name = "CityName")]
+            public string CityName { get; set; }
 
-            [Display(Name = "StreetID")]
-            public int StreetID { get; set; }
+            [Display(Name = "StreetName")]
+            public string StreetName { get; set; }
 
             [Required]
             [Display(Name = "Street Number")]
@@ -99,29 +99,27 @@ namespace Clothes_Shop.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            public virtual CityTab City { get; set; }
-            public virtual StreetTab Street { get; set; }
+          
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ViewData["CityId"] = new SelectList(_context.CityTab, "CityId", "CityName");
-            ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName");
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            ViewData["CityId"] = new SelectList(_context.CityTab, "CityId", "CityName");
-            ViewData["StreetId"] = new SelectList(_context.StreetTab, "StreetId", "StreetName");
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, PhoneNumber = Input.PhoneNumber, CityID = Input.CityID, StreetID = Input.StreetID, StreetNumber = Input.StreetNumber, HomeNumber = Input.HomeNumber};
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, PhoneNumber = Input.PhoneNumber, CityName = Input.CityName, StreetName = Input.StreetName, StreetNumber = Input.StreetNumber, HomeNumber = Input.HomeNumber};
+              //  await _userManager.AddToRoleAsync(user, "Client");
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                 await _userManager.AddToRoleAsync(user, "Client");
+                var useridd = user.Id;
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

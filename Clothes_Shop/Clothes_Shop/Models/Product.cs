@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -20,7 +19,6 @@ namespace Clothes_Shop.Models
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string Season { get; set; }
-       
         public decimal Price { get; set; }
         public int GenderId { get; set; }
         public int ColorId { get; set; }

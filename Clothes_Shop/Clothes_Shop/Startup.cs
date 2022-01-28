@@ -1,21 +1,11 @@
-
 using Clothes_Shop.Models;
+using Clothes_Shop.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Clothes_Shop.Areas.Identity.Data;
-using Clothes_Shop.Data;
-using Clothes_Shop.Helpers;
-using Clothes_Shop.Repository;
-using Microsoft.AspNetCore.Identity;
 
 namespace Clothes_Shop
 {
@@ -43,7 +33,7 @@ namespace Clothes_Shop
 
             //        services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
 
-          
+
 
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();

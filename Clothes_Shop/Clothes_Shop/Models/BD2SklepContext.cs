@@ -30,8 +30,6 @@ namespace Clothes_Shop.Models
         public virtual DbSet<BasketDetails> BasketDetails { get; set; }
         public virtual DbSet<BrandTab> BrandTab { get; set; }
         public virtual DbSet<CategoryTab> CategoryTab { get; set; }
-        public virtual DbSet<CityTab> CityTab { get; set; }
-        public virtual DbSet<ClientAddress> ClientAddress { get; set; }
         public virtual DbSet<ColorTab> ColorTab { get; set; }
         public virtual DbSet<GenderTab> GenderTab { get; set; }
         public virtual DbSet<MaterialTab> MaterialTab { get; set; }
@@ -41,15 +39,13 @@ namespace Clothes_Shop.Models
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Shipper> Shipper { get; set; }
         public virtual DbSet<SizeTab> SizeTab { get; set; }
-        public virtual DbSet<StreetTab> StreetTab { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-AMGTN3U; Database=BD2.Sklep; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-AMGTN3U;Database=BD2.Sklep2;Trusted_Connection=True;");
             }
         }
 
@@ -136,6 +132,9 @@ namespace Clothes_Shop.Models
 
             modelBuilder.Entity<AspNetUsers>(entity =>
             {
+                entity.HasIndex(e => e.CityName)
+                    .HasName("IX_AspNetUsers_CityID");
+
                 entity.HasIndex(e => e.NormalizedEmail)
                     .HasName("EmailIndex");
 
@@ -144,33 +143,30 @@ namespace Clothes_Shop.Models
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.CityId).HasColumnName("CityID");
+                entity.HasIndex(e => e.StreetName)
+                    .HasName("IX_AspNetUsers_StreetID");
+
+                entity.Property(e => e.CityName)
+                    .IsRequired()
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
-                entity.Property(e => e.FirstName).HasMaxLength(50);
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.LastName).HasMaxLength(50);
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
-                entity.Property(e => e.StreetId).HasColumnName("StreetID");
+                entity.Property(e => e.StreetName).HasMaxLength(100);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
-
-                entity.HasOne(d => d.City)
-                    .WithMany(p => p.AspNetUsers)
-                    .HasForeignKey(d => d.CityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AspNetUsers_CityTab");
-
-                entity.HasOne(d => d.Street)
-                    .WithMany(p => p.AspNetUsers)
-                    .HasForeignKey(d => d.StreetId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AspNetUsers_StreetTab");
             });
 
             modelBuilder.Entity<Basket>(entity =>
@@ -245,48 +241,6 @@ namespace Clothes_Shop.Models
                 entity.Property(e => e.Picture)
                     .HasMaxLength(2048)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<CityTab>(entity =>
-            {
-                entity.HasKey(e => e.CityId);
-
-                entity.HasIndex(e => e.CityName)
-                    .HasName("IX_CityTab");
-
-                entity.Property(e => e.CityId).HasColumnName("CityID");
-
-                entity.Property(e => e.CityName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<ClientAddress>(entity =>
-            {
-                entity.HasIndex(e => e.CityId);
-
-                entity.HasIndex(e => e.StreetId);
-
-                entity.HasIndex(e => e.UserId);
-
-                entity.Property(e => e.ClientAddressId).HasColumnName("ClientAddressID");
-
-                entity.Property(e => e.CityId).HasColumnName("CityID");
-
-                entity.Property(e => e.HomeNumber)
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IsMain).HasColumnName("isMain");
-
-                entity.Property(e => e.StreetId).HasColumnName("StreetID");
-
-                entity.Property(e => e.StreetNumber)
-                    .IsRequired()
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
             });
 
             modelBuilder.Entity<ColorTab>(entity =>
@@ -557,20 +511,6 @@ namespace Clothes_Shop.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<StreetTab>(entity =>
-            {
-                entity.HasKey(e => e.StreetId);
-
-                entity.HasIndex(e => e.StreetName)
-                    .HasName("IX_StreetTab");
-
-                entity.Property(e => e.StreetId).HasColumnName("StreetID");
-
-                entity.Property(e => e.StreetName)
-                    .IsRequired()
-                    .HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

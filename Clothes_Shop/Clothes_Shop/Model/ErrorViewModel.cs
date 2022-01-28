@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Clothes_Shop.Models
+﻿namespace Clothes_Shop.Models
 {
     public class ErrorViewModel
     {

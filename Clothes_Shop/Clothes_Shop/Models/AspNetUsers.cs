@@ -37,13 +37,11 @@ namespace Clothes_Shop.Models
         public int AccessFailedCount { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int CityId { get; set; }
-        public int HomeNumber { get; set; }
-        public int StreetId { get; set; }
+        public string CityName { get; set; }
+        public int? HomeNumber { get; set; }
+        public string StreetName { get; set; }
         public int StreetNumber { get; set; }
 
-        public virtual CityTab City { get; set; }
-        public virtual StreetTab Street { get; set; }
         public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
